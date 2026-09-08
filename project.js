@@ -195,6 +195,7 @@ function afficherMenu() {
     console.log("6. Filtrer les trajets");
     console.log("7. Trier les trajets");
     console.log("0. Quitter \n");
+    let userChoix = prompt("Votre choix : ")
 }
 
 function afficherTrajets() {
@@ -208,4 +209,25 @@ function afficherTrajets() {
     });
 }
 
-afficherTrajets();
+function rechercheTrajet(trips) {
+    let idTrajet = Number(prompt("Donner l'id du trajet : "));
+    let trajet;
+
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === idTrajet) {
+            trajet = trips[i];
+            break;
+        }
+    }
+
+    if (trajet) {
+        console.log("#" + trajet.id, trajet.departure + " → " + trajet.destination);
+        console.log("Départ : " + trajet.departureTime);
+        console.log("Arrivée : " + trajet.arrivalTime);
+        console.log("Prix : " + trajet.price);
+        console.log("Places disponibles : " + trajet.availableSeats);
+    } else {
+        console.log("Aucun trajet trouvé pour cet id.");
+    }
+}
+rechercheTrajet(trips)

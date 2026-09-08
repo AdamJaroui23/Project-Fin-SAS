@@ -196,4 +196,16 @@ function afficherMenu() {
     console.log("7. Trier les trajets");
     console.log("0. Quitter \n");
 }
-afficherMenu();
+
+function afficherTrajets() {
+    trips.forEach((trip) => {
+        console.log("#" + trip.id, trip.departure + " → " + trip.destination);
+        console.log("Départ : " + trip.departureTime);
+        console.log("Arrivée : " + trip.arrivalTime);
+        console.log("Prix : " + trip.price);
+        console.log("Places disponibles : " + trip.availableSeats);
+        console.log();
+    });
+}
+
+afficherTrajets();

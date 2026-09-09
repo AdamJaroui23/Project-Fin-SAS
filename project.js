@@ -437,5 +437,10 @@ function triPrixCroissant(trips){
 
     return trips;
 }
-triPrixCroissant(trips)
 
+function totalTicket(tickets) {
+    return ("Nombre total de tickets : " + tickets.length)
+}
+
+achetterTicket(trips)
+console.log(totalTicket(tickets))

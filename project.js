@@ -449,5 +449,46 @@ function chiffreAffaires(tickets){
     }
     return total
 }
-achetterTicket(trips);
-console.log(chiffreAffaires(tickets));
+
+function mostSells(tickets, trips) {
+    if (tickets.length === 0) {
+        console.log("Aucun ticket vendu.");
+        return null;
+    }
+
+    let bestTripId = tickets[0].tripId;
+    let bestCount = 0;
+
+    for (let i = 0; i < tickets.length; i++) {
+        let count = 0;
+
+        for (let j = 0; j < tickets.length; j++) {
+            if (tickets[i].tripId === tickets[j].tripId) {
+                count++;
+            }
+        }
+
+        if (count > bestCount) {
+            bestCount = count;
+            bestTripId = tickets[i].tripId;
+        }
+    }
+
+    let bestTrip;
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === bestTripId) {
+            bestTrip = trips[i];
+            break;
+        }
+    }
+
+    console.log("Trajet le plus vendu :\n");
+    console.log(bestTrip.departure + " → " + bestTrip.destination + "\n");
+    console.log(bestCount + " tickets vendus");
+
+    return bestTripId;
+}
+achetterTicket(trips)
+achetterTicket(trips)
+achetterTicket(trips)
+mostSells(tickets, trips);

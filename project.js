@@ -513,7 +513,10 @@ function mostSells(tickets, trips) {
 
     return bestTripId;
 }
-achetterTicket(trips)
-achetterTicket(trips)
-achetterTicket(trips)
-mostSells(tickets, trips);
+
+function stats(){
+    console.log(totalTicket(tickets));
+    console.log("Chiffre d'affaires total : " + chiffreAffaires(tickets) + " DH");
+    mostSells(tickets, trips);
+}
+stats();

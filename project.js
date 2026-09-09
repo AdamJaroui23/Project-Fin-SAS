@@ -212,6 +212,7 @@ function afficherTrajets(trips) {
 }
 
 function rechercheTrajet(trips, idTrajet) {
+    // let idTrajet = number(prompt("Donner l'id du trajet"))
     let trajet;
 
     for (let i = 0; i < trips.length; i++) {
@@ -244,7 +245,8 @@ function siPlaceDispo(trips, idTrajet) {
     return false;
 }
 
-function créeTicket(trips , idTrajet) {
+function créeTicket(trips) {
+    let idTrajet = +prompt("Donner l'id du trajet : ")
     let trajet = rechercheTrajet(trips, idTrajet);
 
     if (!trajet) {
@@ -271,6 +273,11 @@ function créeTicket(trips , idTrajet) {
     trajet.availableSeats--;
 
     console.log("Ticket acheté avec succès.");
-    return ticket;
+    console.log("Ticket #" + ticket.idTicket );
+    console.log("Passager : " + ticket.passengerName);
+    console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+    console.log("Place : " + ticket.seatNumber);
+    console.log("Prix : " + ticket.price + " DH");
 }
-console.log(créeTicket(trips));
+
+

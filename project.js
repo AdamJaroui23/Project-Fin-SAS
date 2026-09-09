@@ -365,9 +365,11 @@ function annulerTicket(tickets, trips) {
 
 function rechercheTicketsParNom(tickets, trips) {
     let nom = prompt("Donner le nom du passager : ");
+    let ticketTrouve = false;
 
     for (let i = 0; i < tickets.length; i++) {
         if (nom === tickets[i].passengerName) {
+            ticketTrouve = true;
             let ticket = tickets[i];
             let trajet = null;
 
@@ -385,12 +387,14 @@ function rechercheTicketsParNom(tickets, trips) {
             console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
             console.log("Place : " + ticket.seatNumber);
             console.log("Prix : " + ticket.price + " DH");
-            return ticket;
         }
     }
 
-    console.log("Aucun ticket trouvé pour ce passager.");
-    return null;
+    if (!ticketTrouve) {
+        console.log("Aucun ticket trouvé pour ce passager.");
+    }
+
+    return ticketTrouve;
 }
 achetterTicket(trips)
 rechercheTicketsParNom(tickets, trips)

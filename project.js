@@ -442,5 +442,12 @@ function totalTicket(tickets) {
     return ("Nombre total de tickets : " + tickets.length)
 }
 
-achetterTicket(trips)
-console.log(totalTicket(tickets))
+function chiffreAffaires(tickets){
+    let total = 0;
+    for (let i = 0; i < tickets.length; i++) {
+        total += tickets[i].price
+    }
+    return total
+}
+achetterTicket(trips);
+console.log(chiffreAffaires(tickets));

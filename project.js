@@ -232,3 +232,13 @@ function rechercheTrajet(trips) {
     }
 }
 
+function siPlaceDispo(trips, idTrajet) {
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === idTrajet) {
+            return trips[i].availableSeats > 0;
+        }
+    }
+
+    return false;
+}
+console.log(siPlaceDispo(trips));

@@ -344,7 +344,7 @@ function annulerTicket(tickets, trips) {
 
     for (let i = 0; i < tickets.length; i++) {
         if (tickets[i] === ticket) {
-            console.log("Identifiant du ticket : " , i + 1);
+            console.log("Identifiant du ticket : ", i + 1);
             index = i;
             break;
         }
@@ -362,5 +362,35 @@ function annulerTicket(tickets, trips) {
     tickets.length--;
     console.log("Ticket annulé avec succès.");
 }
+
+function rechercheTicketsParNom(tickets, trips) {
+    let nom = prompt("Donner le nom du passager : ");
+
+    for (let i = 0; i < tickets.length; i++) {
+        if (nom === tickets[i].passengerName) {
+            let ticket = tickets[i];
+            let trajet = null;
+
+            for (let j = 0; j < trips.length; j++) {
+                if (trips[j].id === ticket.tripId) {
+                    trajet = trips[j];
+                    break;
+                }
+            }
+
+            console.log("Nom du passager : " + nom);
+            console.log("\n");
+            console.log("Ticket #" + ticket.idTicket);
+            console.log("Passager : " + ticket.passengerName);
+            console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+            console.log("Place : " + ticket.seatNumber);
+            console.log("Prix : " + ticket.price + " DH");
+            return ticket;
+        }
+    }
+
+    console.log("Aucun ticket trouvé pour ce passager.");
+    return null;
+}
 achetterTicket(trips)
-annulerTicket(tickets , trips)
+rechercheTicketsParNom(tickets, trips)

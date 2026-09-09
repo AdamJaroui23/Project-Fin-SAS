@@ -182,6 +182,7 @@ const trips = [
 ];
 
 let prompt = require("prompt-sync")();
+let tickets = [];
 
 function afficherMenu() {
     console.log("\n=============================");
@@ -210,8 +211,7 @@ function afficherTrajets(trips) {
     }
 }
 
-function rechercheTrajet(trips) {
-    let idTrajet = Number(prompt("Donner l'id du trajet : "));
+function rechercheTrajet(trips, idTrajet) {
     let trajet;
 
     for (let i = 0; i < trips.length; i++) {
@@ -230,6 +230,8 @@ function rechercheTrajet(trips) {
     } else {
         console.log("Aucun trajet trouvé pour cet id.");
     }
+
+    return trajet || null;
 }
 
 function siPlaceDispo(trips, idTrajet) {
@@ -241,4 +243,34 @@ function siPlaceDispo(trips, idTrajet) {
 
     return false;
 }
-console.log(siPlaceDispo(trips));
+
+function créeTicket(trips , idTrajet) {
+    let trajet = rechercheTrajet(trips, idTrajet);
+
+    if (!trajet) {
+        console.log("Trajet introuvable");
+        
+        return null;
+    }
+
+    if (!siPlaceDispo(trips, idTrajet)) {
+        console.log("Train complet.");
+        return null;
+    }
+
+    let passengerName = prompt("Donner le nom du passager : ");
+    let ticket = {
+        idTicket : tickets.length + 1,
+        passengerName: passengerName,
+        tripId: trajet.id,
+        seatNumber: 50 - trajet.availableSeats + 1,
+        price: trajet.price
+    };
+
+    tickets.push(ticket);
+    trajet.availableSeats--;
+
+    console.log("Ticket acheté avec succès.");
+    return ticket;
+}
+console.log(créeTicket(trips));

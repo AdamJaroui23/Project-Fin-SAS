@@ -303,15 +303,24 @@ function afficherTickets(tickets, trips) {
     }
 }
 
-function rechercheTicket(tickets) {
+function rechercheTicket(tickets, trips) {
     let idTicket = +prompt("Donner l'id du ticket : ");
     for (let i = 0; i < tickets.length; i++) {
         if (tickets[i].idTicket === idTicket) {
+            let trajet = trips.find(function (trip) {
+                return trip.id === tickets[i].tripId;
+            });
+
+            if (trajet) {
+                console.log(trajet.departure + " → " + trajet.destination);
+            }
+
             return true;
         }
     }
-    return ("Ticket introuvable.");
+    console.log("Ticket introuvable.");
+    return false;
 }
+
 achetterTicket(trips)
-afficherTickets(tickets , trips)
-console.log(rechercheTicket(tickets));
+rechercheTicket(tickets, trips);

@@ -195,6 +195,7 @@ function afficherMenu() {
     console.log("5. Rechercher un ticket");
     console.log("6. Filtrer les trajets");
     console.log("7. Trier les trajets");
+    console.log("8. Statistiques");
     console.log("0. Quitter \n");
     let userChoix = prompt("Votre choix : ")
 }
@@ -411,4 +412,30 @@ function filtrerParVille(trips) {
     }
     return ("Aucun ville de départ trouvée")
 }
-filtrerParVille(trips)
+
+function triPrixCroissant(trips){
+    for (let i = 0; i < trips.length - 1; i++) {
+        for (let j = 0; j < trips.length - 1 - i; j++) {
+            if (trips[j].price > trips[j + 1].price) {
+                let trajet = trips[j];
+                trips[j] = trips[j + 1];
+                trips[j + 1] = trajet;
+            }
+        }
+    }
+
+    console.log("=== TRAJETS TRIÉS PAR PRIX CROISSANT ===");
+
+    for (let i = 0; i < trips.length; i++) {
+        console.log(
+            "#" + trips[i].id + " " +
+            trips[i].departure + " → " +
+            trips[i].destination + " : " +
+            trips[i].price + " DH"
+        );
+    }
+
+    return trips;
+}
+triPrixCroissant(trips)
+

@@ -299,7 +299,7 @@ function achetterTicket(trips) {
     return créeTicket(trajet);
 }
 
-function afficherTickets(tickets, trips) {
+function afficherTickets(tickets) {
     if (tickets.length === 0) {
         console.log("Aucun ticket enregistré.");
         return;
@@ -326,7 +326,7 @@ function afficherTickets(tickets, trips) {
     }
 }
 
-function rechercheTicketParId(tickets, trips) {
+function rechercheTicketParId(tickets) {
     let idTicket = +prompt("Donner l'id du ticket : ");
     for (let i = 0; i < tickets.length; i++) {
         if (tickets[i].idTicket === idTicket) {
@@ -351,8 +351,8 @@ function rechercheTicketParId(tickets, trips) {
     return null;
 }
 
-function annulerTicket(tickets, trips) {
-    let ticket = rechercheTicketParId(tickets, trips);
+function annulerTicket(tickets) {
+    let ticket = rechercheTicketParId(tickets);
 
     if (!ticket) {
         return null;
@@ -388,7 +388,7 @@ function annulerTicket(tickets, trips) {
     console.log("Ticket annulé avec succès.");
 }
 
-function rechercheTicketsParNom(tickets, trips) {
+function rechercheTicketsParNom(tickets) {
     let nom = prompt("Donner le nom du passager : ");
     let ticketTrouve = false;
 

@@ -212,7 +212,6 @@ function afficherTrajets(trips) {
 }
 
 function rechercheTrajet(trips, idTrajet) {
-    // let idTrajet = number(prompt("Donner l'id du trajet"))
     let trajet;
 
     for (let i = 0; i < trips.length; i++) {
@@ -245,22 +244,8 @@ function siPlaceDispo(trips, idTrajet) {
     return false;
 }
 
-function créeTicket(trips) {
-    let idTrajet = +prompt("Donner l'id du trajet : ")
-    let trajet = rechercheTrajet(trips, idTrajet);
-
-    if (!trajet) {
-        console.log("Trajet introuvable");
-        
-        return null;
-    }
-
-    if (!siPlaceDispo(trips, idTrajet)) {
-        console.log("Train complet.");
-        return null;
-    }
-
-    let passengerName = prompt("Donner le nom du passager : ");
+function créeTicket(trajet) {
+    let passengerName = prompt("Donner le nom du passager pour acheter une ticket: ");
     let ticket = {
         idTicket : tickets.length + 1,
         passengerName: passengerName,
@@ -278,6 +263,23 @@ function créeTicket(trips) {
     console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
     console.log("Place : " + ticket.seatNumber);
     console.log("Prix : " + ticket.price + " DH");
+    return ticket;
 }
 
+function achetterTicket(trips) {
+    let idTrajet = +prompt("Donner l'id du trajet : ");
+    let trajet = rechercheTrajet(trips, idTrajet);
 
+    if (!trajet) {
+        return null;
+    }
+
+    if (!siPlaceDispo(trips, idTrajet)) {
+        console.log("Train complet.");
+        return null;
+    }
+
+    return créeTicket(trajet);
+}
+
+achetterTicket(trips)

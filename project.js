@@ -198,15 +198,16 @@ function afficherMenu() {
     let userChoix = prompt("Votre choix : ")
 }
 
-function afficherTrajets() {
-    trips.forEach((trip) => {
+function afficherTrajets(trips) {
+    for (let i = 0; i < trips.length; i++) {
+        let trip = trips[i];
         console.log("#" + trip.id, trip.departure + " → " + trip.destination);
         console.log("Départ : " + trip.departureTime);
         console.log("Arrivée : " + trip.arrivalTime);
         console.log("Prix : " + trip.price);
         console.log("Places disponibles : " + trip.availableSeats);
         console.log();
-    });
+    }
 }
 
 function rechercheTrajet(trips) {
@@ -230,4 +231,4 @@ function rechercheTrajet(trips) {
         console.log("Aucun trajet trouvé pour cet id.");
     }
 }
-rechercheTrajet(trips)
+

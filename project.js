@@ -246,11 +246,29 @@ function siPlaceDispo(trips, idTrajet) {
 
 function créeTicket(trajet) {
     let passengerName = prompt("Donner le nom du passager pour acheter une ticket: ");
+    let seatNumber = 1;
+
+    for (let seat = 1; seat <= 50; seat++) {
+        let seatTaken = false;
+
+        for (let i = 0; i < tickets.length; i++) {
+            if (tickets[i].tripId === trajet.id && tickets[i].seatNumber === seat) {
+                seatTaken = true;
+                break;
+            }
+        }
+
+        if (!seatTaken) {
+            seatNumber = seat;
+            break;
+        }
+    }
+
     let ticket = {
         idTicket: tickets.length + 1,
         passengerName: passengerName,
         tripId: trajet.id,
-        seatNumber: 50 - trajet.availableSeats + 1,
+        seatNumber: seatNumber,
         price: trajet.price
     };
 
@@ -354,6 +372,13 @@ function annulerTicket(tickets, trips) {
     if (index === -1) {
         console.log("Ticket introuvable.");
         return null;
+    }
+
+    for (let i = 0; i < trips.length; i++) {
+        if (trips[i].id === ticket.tripId) {
+            trips[i].availableSeats++;
+            break;
+        }
     }
 
     for (let i = index; i < tickets.length - 1; i++) {

@@ -302,5 +302,16 @@ function afficherTickets(tickets, trips) {
         console.log("Prix : " + ticket.price + " DH");
     }
 }
+
+function rechercheTicket(tickets) {
+    let idTicket = +prompt("Donner l'id du ticket : ");
+    for (let i = 0; i < tickets.length; i++) {
+        if (tickets[i].idTicket === idTicket) {
+            return true;
+        }
+    }
+    return ("Ticket introuvable.");
+}
 achetterTicket(trips)
-afficherTickets(tickets, trips);
+afficherTickets(tickets , trips)
+console.log(rechercheTicket(tickets));

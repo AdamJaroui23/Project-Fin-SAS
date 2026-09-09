@@ -197,7 +197,6 @@ function afficherMenu() {
     console.log("7. Trier les trajets");
     console.log("8. Statistiques");
     console.log("0. Quitter \n");
-    let userChoix = prompt("Votre choix : ")
 }
 
 function afficherTrajets(trips) {
@@ -438,7 +437,7 @@ function filtrerParVille(trips) {
     return ("Aucun ville de départ trouvée")
 }
 
-function triPrixCroissant(trips){
+function triPrixCroissant(trips) {
     for (let i = 0; i < trips.length - 1; i++) {
         for (let j = 0; j < trips.length - 1 - i; j++) {
             if (trips[j].price > trips[j + 1].price) {
@@ -467,7 +466,7 @@ function totalTicket(tickets) {
     return ("Nombre total de tickets : " + tickets.length)
 }
 
-function chiffreAffaires(tickets){
+function chiffreAffaires(tickets) {
     let total = 0;
     for (let i = 0; i < tickets.length; i++) {
         total += tickets[i].price
@@ -514,9 +513,49 @@ function mostSells(tickets, trips) {
     return bestTripId;
 }
 
-function stats(){
+function stats() {
     console.log(totalTicket(tickets));
     console.log("Chiffre d'affaires total : " + chiffreAffaires(tickets) + " DH");
     mostSells(tickets, trips);
 }
-stats();
+
+let userChoix;
+
+do {
+    afficherMenu();
+    userChoix = Number(prompt("Votre choix : "));
+
+    if (userChoix === 0) {
+        console.log("Au revoir.");
+    } else {
+        switch (userChoix) {
+            case 1:
+                afficherTrajets(trips);
+                break;
+            case 2:
+                achetterTicket(trips);
+                break;
+            case 3:
+                afficherTickets(tickets, trips);
+                break;
+            case 4:
+                annulerTicket(tickets, trips);
+                break;
+            case 5:
+                rechercheTicketsParNom(tickets, trips);
+                break;
+            case 6:
+                filtrerParVille(trips);
+                break;
+            case 7:
+                triPrixCroissant(trips);
+                break;
+            case 8:
+                stats();
+                break;
+            default:
+                console.log("Choix invalide.");
+        }
+    }
+
+} while (userChoix !== 0);

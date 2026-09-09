@@ -207,7 +207,6 @@ function afficherTrajets(trips) {
         console.log("Arrivée : " + trip.arrivalTime);
         console.log("Prix : " + trip.price);
         console.log("Places disponibles : " + trip.availableSeats);
-        console.log();
     }
 }
 
@@ -282,4 +281,26 @@ function achetterTicket(trips) {
     return créeTicket(trajet);
 }
 
+function afficherTickets(tickets, trips) {
+    if (tickets.length === 0) {
+        console.log("Aucun ticket enregistré.");
+        return;
+    }
+
+    console.log("=== TICKETS ===\n");
+
+    for (let i = 0; i < tickets.length; i++) {
+        let ticket = tickets[i];
+        let trajet = trips.find(function (trip) {
+            return trip.id === ticket.tripId;
+        });
+
+        console.log("Ticket #" + ticket.idTicket);
+        console.log("Passager : " + ticket.passengerName);
+        console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+        console.log("Place : " + ticket.seatNumber);
+        console.log("Prix : " + ticket.price + " DH");
+    }
+}
 achetterTicket(trips)
+afficherTickets(tickets, trips);

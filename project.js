@@ -308,7 +308,7 @@ function afficherTickets(tickets, trips) {
     }
 }
 
-function rechercheTicket(tickets, trips) {
+function rechercheTicketParId(tickets, trips) {
     let idTicket = +prompt("Donner l'id du ticket : ");
     for (let i = 0; i < tickets.length; i++) {
         if (tickets[i].idTicket === idTicket) {
@@ -333,12 +333,17 @@ function rechercheTicket(tickets, trips) {
     return null;
 }
 
-function annulerTicket(tickets) {
-    let idTicket = +prompt("Donner l'id du ticket à annuler : ");
+function annulerTicket(tickets, trips) {
+    let ticket = rechercheTicketParId(tickets, trips);
+
+    if (!ticket) {
+        return null;
+    }
+
     let index = -1;
 
     for (let i = 0; i < tickets.length; i++) {
-        if (tickets[i].idTicket === idTicket) {
+        if (tickets[i] === ticket) {
             console.log("Identifiant du ticket : " , i + 1);
             index = i;
             break;
@@ -358,5 +363,4 @@ function annulerTicket(tickets) {
     console.log("Ticket annulé avec succès.");
 }
 achetterTicket(trips)
-annulerTicket(tickets)
-afficherTickets(tickets , trips)
+annulerTicket(tickets , trips)

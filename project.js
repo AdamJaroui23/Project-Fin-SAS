@@ -182,7 +182,9 @@ const trips = [
 ];
 
 let prompt = require("prompt-sync")();
+
 let tickets = [];
+
 let nextTicketId = 1;
 
 function afficherMenu() {
@@ -197,14 +199,17 @@ function afficherMenu() {
     console.log("6. Filtrer les trajets");
     console.log("7. Trier les trajets");
     console.log("8. Statistiques");
-    console.log("0. Quitter \n");
+    console.log("0. Quitter");
+    console.log("=============================\n");
 }
 
 function afficherTrajets(trips) {
+    console.log("\n=== LISTE DES TRAJETS ===\n");
+
     for (let i = 0; i < trips.length; i++) {
         let trip = trips[i];
 
-        console.log("#" + trip.id, trip.departure + " → " + trip.destination);
+        console.log("#" + trip.id + " " + trip.departure + " → " + trip.destination);
         console.log("Départ : " + trip.departureTime);
         console.log("Arrivée : " + trip.arrivalTime);
         console.log("Prix : " + trip.price + " DH");
@@ -224,7 +229,8 @@ function rechercheTrajet(trips, idTrajet) {
     }
 
     if (trajet) {
-        console.log("#" + trajet.id, trajet.departure + " → " + trajet.destination);
+        console.log("\n=== TRAJET TROUVÉ ===");
+        console.log("#" + trajet.id + " " + trajet.departure + " → " + trajet.destination);
         console.log("Départ : " + trajet.departureTime);
         console.log("Arrivée : " + trajet.arrivalTime);
         console.log("Prix : " + trajet.price + " DH");
@@ -247,7 +253,17 @@ function siPlaceDispo(trips, idTrajet) {
 }
 
 function créeTicket(trajet) {
-    let passengerName = prompt("Donner le nom du passager pour acheter une ticket : ");
+    let passengerName = prompt(
+        "Donner le nom du passager pour acheter un ticket : "
+    );
+
+    if (passengerName.trim() === "") {
+        console.log("Le nom du passager ne peut pas être vide.");
+        return null;
+    }
+
+    passengerName = passengerName.trim();
+
     let seatNumber = 0;
 
     for (let seat = 1; seat <= 50; seat++) {
@@ -269,6 +285,11 @@ function créeTicket(trajet) {
         }
     }
 
+    if (seatNumber === 0) {
+        console.log("Aucune place disponible.");
+        return null;
+    }
+
     let ticket = {
         idTicket: nextTicketId,
         passengerName: passengerName,
@@ -280,6 +301,7 @@ function créeTicket(trajet) {
     nextTicketId++;
 
     tickets.push(ticket);
+
     trajet.availableSeats--;
 
     console.log("\nTicket acheté avec succès.");
@@ -293,7 +315,20 @@ function créeTicket(trajet) {
 }
 
 function achetterTicket(trips) {
-    let idTrajet = +prompt("Donner l'id du trajet : ");
+    let input = prompt("Donner l'id du trajet : ");
+
+    if (input.trim() === "") {
+        console.log("Veuillez entrer un identifiant.");
+        return null;
+    }
+
+    let idTrajet = Number(input);
+
+    if (isNaN(idTrajet)) {
+        console.log("L'identifiant doit être un nombre.");
+        return null;
+    }
+
     let trajet = rechercheTrajet(trips, idTrajet);
 
     if (!trajet) {
@@ -314,7 +349,7 @@ function afficherTickets(tickets) {
         return;
     }
 
-    console.log("=== TICKETS ===\n");
+    console.log("\n=== TICKETS ===\n");
 
     for (let i = 0; i < tickets.length; i++) {
         let ticket = tickets[i];
@@ -327,6 +362,11 @@ function afficherTickets(tickets) {
             }
         }
 
+        if (!trajet) {
+            console.log("Trajet associé au ticket #" + ticket.idTicket + " introuvable.");
+            continue;
+        }
+
         console.log("Ticket #" + ticket.idTicket);
         console.log("Passager : " + ticket.passengerName);
         console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
@@ -337,23 +377,22 @@ function afficherTickets(tickets) {
 }
 
 function rechercheTicketParId(tickets) {
-    let idTicket = +prompt("Donner l'id du ticket : ");
+    let input = prompt("Donner l'id du ticket : ");
+
+    if (input.trim() === "") {
+        console.log("Veuillez entrer un identifiant.");
+        return null;
+    }
+
+    let idTicket = Number(input);
+
+    if (isNaN(idTicket)) {
+        console.log("L'identifiant doit être un nombre.");
+        return null;
+    }
 
     for (let i = 0; i < tickets.length; i++) {
         if (tickets[i].idTicket === idTicket) {
-            let trajet = null;
-
-            for (let j = 0; j < trips.length; j++) {
-                if (trips[j].id === tickets[i].tripId) {
-                    trajet = trips[j];
-                    break;
-                }
-            }
-
-            if (trajet) {
-                console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
-            }
-
             return tickets[i];
         }
     }
@@ -396,15 +435,25 @@ function annulerTicket(tickets) {
 
     tickets.length--;
 
-    console.log("Ticket annulé avec succès.");
+    console.log("Ticket #" + ticket.idTicket + " annulé avec succès.");
+
+    return ticket;
 }
 
 function rechercheTicketsParNom(tickets) {
     let nom = prompt("Donner le nom du passager : ");
+
+    if (nom.trim() === "") {
+        console.log("Le nom ne peut pas être vide.");
+        return false;
+    }
+
+    nom = nom.trim().toLowerCase();
+
     let ticketTrouve = false;
 
     for (let i = 0; i < tickets.length; i++) {
-        if (nom === tickets[i].passengerName) {
+        if (nom === tickets[i].passengerName.toLowerCase()) {
             ticketTrouve = true;
 
             let ticket = tickets[i];
@@ -417,12 +466,18 @@ function rechercheTicketsParNom(tickets) {
                 }
             }
 
-            console.log("\nNom du passager : " + nom);
+            if (!trajet) {
+                console.log("Trajet associé introuvable.");
+                continue;
+            }
+
+            console.log("\nNom du passager : " + ticket.passengerName);
             console.log("Ticket #" + ticket.idTicket);
             console.log("Passager : " + ticket.passengerName);
             console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
             console.log("Place : " + ticket.seatNumber);
             console.log("Prix : " + ticket.price + " DH");
+            console.log("-----------------------------");
         }
     }
 
@@ -435,17 +490,24 @@ function rechercheTicketsParNom(tickets) {
 
 function filtrerParVille(trips) {
     let city = prompt("Donner la ville de départ : ");
+
+    if (city.trim() === "") {
+        console.log("La ville ne peut pas être vide.");
+        return false;
+    }
+
+    city = city.trim().toLowerCase();
+
     let trouve = false;
 
-    console.log("\nVille de départ : " + city);
     console.log("\nRésultat :\n");
 
     for (let i = 0; i < trips.length; i++) {
-        if (city === trips[i].departure) {
+        if (city === trips[i].departure.toLowerCase()) {
             trouve = true;
 
             console.log(
-                city +
+                trips[i].departure +
                 " → " +
                 trips[i].destination +
                 " : " +
@@ -467,13 +529,14 @@ function triPrixCroissant(trips) {
         for (let j = 0; j < trips.length - 1 - i; j++) {
             if (trips[j].price > trips[j + 1].price) {
                 let trajet = trips[j];
+
                 trips[j] = trips[j + 1];
                 trips[j + 1] = trajet;
             }
         }
     }
 
-    console.log("=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n");
+    console.log("\n=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n");
 
     for (let i = 0; i < trips.length; i++) {
         console.log(
@@ -539,7 +602,12 @@ function mostSells(tickets, trips) {
         }
     }
 
-    console.log("Trajet le plus vendu :\n");
+    if (!bestTrip) {
+        console.log("Trajet le plus vendu introuvable.");
+        return null;
+    }
+
+    console.log("\nTrajet le plus vendu :");
     console.log(bestTrip.departure + " → " + bestTrip.destination);
     console.log(bestCount + " tickets vendus");
 
@@ -547,7 +615,10 @@ function mostSells(tickets, trips) {
 }
 
 function stats() {
+    console.log("\n=== STATISTIQUES ===\n");
+
     console.log(totalTicket(tickets));
+
     console.log(
         "Chiffre d'affaires total : " +
         chiffreAffaires(tickets) +
@@ -562,7 +633,19 @@ let userChoix;
 do {
     afficherMenu();
 
-    userChoix = Number(prompt("Votre choix : "));
+    let input = prompt("Votre choix : ");
+
+    if (input.trim() === "") {
+        console.log("Veuillez entrer un choix.");
+        continue;
+    }
+
+    userChoix = Number(input);
+
+    if (isNaN(userChoix)) {
+        console.log("Veuillez entrer un nombre.");
+        continue;
+    }
 
     if (userChoix === 0) {
         console.log("Au revoir.");

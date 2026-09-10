@@ -182,9 +182,7 @@ const trips = [
 ];
 
 let prompt = require("prompt-sync")();
-
 let tickets = [];
-
 let nextTicketId = 1;
 
 function afficherMenu() {
@@ -265,10 +263,6 @@ function créeTicket(trajet) {
         "Donner le nom du passager pour acheter un ticket : "
     );
 
-    passengerName = passengerName.trim();
-
-    passengerName = passengerName.toLowerCase();
-
     if (passengerName === "") {
         console.log("Le nom du passager ne peut pas être vide.");
         return null;
@@ -310,7 +304,7 @@ function créeTicket(trajet) {
 
     nextTicketId++;
 
-    tickets.push(ticket);
+    tickets[tickets.length] = ticket;
 
     trajet.availableSeats--;
 
@@ -332,7 +326,7 @@ function créeTicket(trajet) {
 function achetterTicket(trips) {
     let input = prompt("Donner l'id du trajet : ");
 
-    if (input.trim() === "") {
+    if (input === "") {
         console.log("Veuillez entrer un identifiant.");
         return null;
     }
@@ -403,7 +397,7 @@ function afficherTickets(tickets) {
 function rechercheTicketParId(tickets) {
     let input = prompt("Donner l'id du ticket : ");
 
-    if (input.trim() === "") {
+    if (input === "") {
         console.log("Veuillez entrer un identifiant.");
         return null;
     }
@@ -471,9 +465,6 @@ function annulerTicket(tickets) {
 function rechercheTicketsParNom(tickets) {
     let nom = prompt("Donner le nom du passager : ");
 
-    nom = nom.trim();
-    nom = nom.toLowerCase();
-
     if (nom === "") {
         console.log("Le nom ne peut pas être vide.");
         return false;
@@ -525,10 +516,6 @@ function rechercheTicketsParNom(tickets) {
 function filtrerParVille(trips) {
     let city = prompt("Donner la ville de départ : ");
 
-    city = city.trim();
-
-    city = city.toLowerCase();
-
     if (city === "") {
         console.log("La ville ne peut pas être vide.");
         return false;
@@ -539,7 +526,7 @@ function filtrerParVille(trips) {
     console.log("\nRésultat :\n");
 
     for (let i = 0; i < trips.length; i++) {
-        if (city === trips[i].departure.toLowerCase()) {
+        if (city === trips[i].departure) {
             trouve = true;
 
             console.log(
@@ -563,7 +550,6 @@ function filtrerParVille(trips) {
 function triPrixCroissant(trips) {
     for (let i = 0; i < trips.length - 1; i++) {
         for (let j = 0; j < trips.length - 1 - i; j++) {
-
             if (trips[j].price > trips[j + 1].price) {
                 let trajet = trips[j];
 
@@ -573,9 +559,7 @@ function triPrixCroissant(trips) {
         }
     }
 
-    console.log(
-        "\n=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n"
-    );
+    console.log("\n=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n");
 
     for (let i = 0; i < trips.length; i++) {
         console.log(
@@ -678,7 +662,7 @@ do {
 
     let input = prompt("Votre choix : ");
 
-    if (input.trim() === "") {
+    if (input === "") {
         console.log("Veuillez entrer un choix.");
         continue;
     }
@@ -694,7 +678,6 @@ do {
         console.log("Au revoir.");
     } else {
         switch (userChoix) {
-
             case 1:
                 afficherTrajets(trips);
                 break;

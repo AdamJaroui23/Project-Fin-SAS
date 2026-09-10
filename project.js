@@ -209,7 +209,11 @@ function afficherTrajets(trips) {
     for (let i = 0; i < trips.length; i++) {
         let trip = trips[i];
 
-        console.log("#" + trip.id + " " + trip.departure + " → " + trip.destination);
+        console.log(
+            "#" + trip.id + " " +
+            trip.departure + " → " +
+            trip.destination
+        );
         console.log("Départ : " + trip.departureTime);
         console.log("Arrivée : " + trip.arrivalTime);
         console.log("Prix : " + trip.price + " DH");
@@ -230,7 +234,11 @@ function rechercheTrajet(trips, idTrajet) {
 
     if (trajet) {
         console.log("\n=== TRAJET TROUVÉ ===");
-        console.log("#" + trajet.id + " " + trajet.departure + " → " + trajet.destination);
+        console.log(
+            "#" + trajet.id + " " +
+            trajet.departure + " → " +
+            trajet.destination
+        );
         console.log("Départ : " + trajet.departureTime);
         console.log("Arrivée : " + trajet.arrivalTime);
         console.log("Prix : " + trajet.price + " DH");
@@ -257,12 +265,14 @@ function créeTicket(trajet) {
         "Donner le nom du passager pour acheter un ticket : "
     );
 
-    if (passengerName.trim() === "") {
+    passengerName = passengerName.trim();
+
+    passengerName = passengerName.toLowerCase();
+
+    if (passengerName === "") {
         console.log("Le nom du passager ne peut pas être vide.");
         return null;
     }
-
-    passengerName = passengerName.trim();
 
     let seatNumber = 0;
 
@@ -307,7 +317,12 @@ function créeTicket(trajet) {
     console.log("\nTicket acheté avec succès.");
     console.log("Ticket #" + ticket.idTicket);
     console.log("Passager : " + ticket.passengerName);
-    console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+    console.log(
+        "Trajet : " +
+        trajet.departure +
+        " → " +
+        trajet.destination
+    );
     console.log("Place : " + ticket.seatNumber);
     console.log("Prix : " + ticket.price + " DH");
 
@@ -363,13 +378,22 @@ function afficherTickets(tickets) {
         }
 
         if (!trajet) {
-            console.log("Trajet associé au ticket #" + ticket.idTicket + " introuvable.");
+            console.log(
+                "Trajet associé au ticket #" +
+                ticket.idTicket +
+                " introuvable."
+            );
             continue;
         }
 
         console.log("Ticket #" + ticket.idTicket);
         console.log("Passager : " + ticket.passengerName);
-        console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+        console.log(
+            "Trajet : " +
+            trajet.departure +
+            " → " +
+            trajet.destination
+        );
         console.log("Place : " + ticket.seatNumber);
         console.log("Prix : " + ticket.price + " DH");
         console.log("-----------------------------");
@@ -435,7 +459,11 @@ function annulerTicket(tickets) {
 
     tickets.length--;
 
-    console.log("Ticket #" + ticket.idTicket + " annulé avec succès.");
+    console.log(
+        "Ticket #" +
+        ticket.idTicket +
+        " annulé avec succès."
+    );
 
     return ticket;
 }
@@ -443,17 +471,18 @@ function annulerTicket(tickets) {
 function rechercheTicketsParNom(tickets) {
     let nom = prompt("Donner le nom du passager : ");
 
-    if (nom.trim() === "") {
+    nom = nom.trim();
+    nom = nom.toLowerCase();
+
+    if (nom === "") {
         console.log("Le nom ne peut pas être vide.");
         return false;
     }
 
-    nom = nom.trim().toLowerCase();
-
     let ticketTrouve = false;
 
     for (let i = 0; i < tickets.length; i++) {
-        if (nom === tickets[i].passengerName.toLowerCase()) {
+        if (nom === tickets[i].passengerName) {
             ticketTrouve = true;
 
             let ticket = tickets[i];
@@ -474,7 +503,12 @@ function rechercheTicketsParNom(tickets) {
             console.log("\nNom du passager : " + ticket.passengerName);
             console.log("Ticket #" + ticket.idTicket);
             console.log("Passager : " + ticket.passengerName);
-            console.log("Trajet : " + trajet.departure + " → " + trajet.destination);
+            console.log(
+                "Trajet : " +
+                trajet.departure +
+                " → " +
+                trajet.destination
+            );
             console.log("Place : " + ticket.seatNumber);
             console.log("Prix : " + ticket.price + " DH");
             console.log("-----------------------------");
@@ -491,12 +525,14 @@ function rechercheTicketsParNom(tickets) {
 function filtrerParVille(trips) {
     let city = prompt("Donner la ville de départ : ");
 
-    if (city.trim() === "") {
+    city = city.trim();
+
+    city = city.toLowerCase();
+
+    if (city === "") {
         console.log("La ville ne peut pas être vide.");
         return false;
     }
-
-    city = city.trim().toLowerCase();
 
     let trouve = false;
 
@@ -527,6 +563,7 @@ function filtrerParVille(trips) {
 function triPrixCroissant(trips) {
     for (let i = 0; i < trips.length - 1; i++) {
         for (let j = 0; j < trips.length - 1 - i; j++) {
+
             if (trips[j].price > trips[j + 1].price) {
                 let trajet = trips[j];
 
@@ -536,7 +573,9 @@ function triPrixCroissant(trips) {
         }
     }
 
-    console.log("\n=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n");
+    console.log(
+        "\n=== TRAJETS TRIÉS PAR PRIX CROISSANT ===\n"
+    );
 
     for (let i = 0; i < trips.length; i++) {
         console.log(
@@ -608,7 +647,11 @@ function mostSells(tickets, trips) {
     }
 
     console.log("\nTrajet le plus vendu :");
-    console.log(bestTrip.departure + " → " + bestTrip.destination);
+    console.log(
+        bestTrip.departure +
+        " → " +
+        bestTrip.destination
+    );
     console.log(bestCount + " tickets vendus");
 
     return bestTripId;
@@ -651,6 +694,7 @@ do {
         console.log("Au revoir.");
     } else {
         switch (userChoix) {
+
             case 1:
                 afficherTrajets(trips);
                 break;

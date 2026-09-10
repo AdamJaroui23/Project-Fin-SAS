@@ -423,18 +423,30 @@ function rechercheTicketsParNom(tickets) {
 }
 
 function filtrerParVille(trips) {
-    let city = prompt("Donner la ville de départ : ")
+
+    let city = prompt("Donner la ville de départ : ");
+
     console.log("Ville de départ : " + city);
     console.log("\n");
     console.log("Résultat : ");
     console.log("\n");
+
+    let trouve = false;
+
     for (let i = 0; i < trips.length; i++) {
+
         if (city === trips[i].departure) {
+
             console.log(city + " → " + trips[i].destination + " : " + trips[i].price + " DH");
             console.log("\n");
+
+            trouve = true;
         }
     }
-    return ("Aucun ville de départ trouvée")
+
+    if (trouve === false) {
+        console.log("Aucune ville de départ trouvée");
+    }
 }
 
 function triPrixCroissant(trips) {
